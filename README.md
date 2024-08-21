@@ -7,7 +7,7 @@ The goal of this project is to develop a micro-system for image search that allo
 The Unplash Dataset [link](https://github.com/unsplash/datasets)
 
 To download the dataset and preproces:
-* ```python ./TextSearch/data/preprocess```
+* ```python ./TextSearch/data/preprocess.py```
 
 ####  Image Embedding Extractor #### 
 

@@ -28,7 +28,7 @@ To search similar images based on the query:
 * ```python ./TextSearch/src/app.py```
 
 ####  Train CLIP model using custom dataset #### 
-* ```python ./TextSearch/src/train.py --batch_size 16 --learning_rate 1e-5 --save_model_dir ./TextSearch/model/ --max_epochs 1```
+* ```python ./TextSearch/src/train.py --batch_size 16 --learning_rate 1e-5 --save_model_dir ./TextSearch/model/ --max_epochs 10```
 
 ####  Tools #### 
 * ```pip install -r requirements.txt ``` 

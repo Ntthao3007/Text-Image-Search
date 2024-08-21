@@ -16,7 +16,14 @@ DATASET_PATH = Path(__file__).resolve().parents[1] / "data"
 DOWNLOADED_PHOTOS_PATH = DATASET_PATH / "photos"
 FEATURE_PATH = DATASET_PATH / "features"
 DOWNLOADED_PHOTOS_PATH.mkdir(parents=True, exist_ok=True)
-FEATURE_PATH.mkdir(parents=True, exist_ok=True)  
+FEATURE_PATH.mkdir(parents=True, exist_ok=True)
+
+def setup_parser():
+    parser = ArgumentParser()
+    parser.add_argument("--image_width", type=int, default=640)
+    parser.add_argument("--threads_count", type=int, default=128)
+    parser.add_argument("--num_images", type=int, default=3000)
+    return parser
 
 def download_photo(image_width, photo):
     photo_id = photo[0]
@@ -28,13 +35,6 @@ def download_photo(image_width, photo):
         except Exception as e:
             print(f"Cannot download {photo_url}: {e}")
             pass
-
-def setup_parser():
-    parser = ArgumentParser()
-    parser.add_argument("--image_width", type=int, default=640)
-    parser.add_argument("--threads_count", type=int, default=128)
-    parser.add_argument("--num_images", type=int, default=3000)
-    return parser
 
 def download_images(photos, image_width, threads_count=128):
     print("Photo downloading begins...")

@@ -4,7 +4,6 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from data.preprocess import FEATURE_PATH, DOWNLOADED_PHOTOS_PATH
 
 from argparse import ArgumentParser
-from pathlib import Path
 import torch
 import clip
 from PIL import Image
@@ -19,7 +18,7 @@ def setup_parser():
     parser.add_argument("--device", type=str, default="cuda")
     return parser
 
-class FeatureExtractor:
+class ImageEncoder:
     def __init__(self, model_name="ViT-B/32", device="cuda", batch_size=32):
         self.device = device if torch.cuda.is_available() else "cpu"
         self.batch_size = batch_size
@@ -65,7 +64,7 @@ if __name__ == "__main__":
     parser = setup_parser()
     args = parser.parse_args()
 
-    extractor = FeatureExtractor(model_name=args.model_name, device=args.device, batch_size=args.batch_size)
+    extractor = ImageEncoder(model_name=args.model_name, device=args.device, batch_size=args.batch_size)
     photos_files = list(DOWNLOADED_PHOTOS_PATH.glob("*.jpg"))
     
     extractor.generate_features(photos_files)

@@ -18,7 +18,7 @@ interface = gr.Interface(
     fn=display_results,
     inputs=[
         gr.Textbox(label="Search Query"),
-        gr.Slider(minimum=1, maximum=10, value=3, label="Number of Results")
+        gr.Slider(minimum=1, maximum=10, value=3, step=1 , label="Number of Results")
     ],
     outputs=gr.Gallery(label="Search Results"),
     title="Image Search"

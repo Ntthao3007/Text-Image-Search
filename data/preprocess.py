@@ -33,6 +33,7 @@ def setup_parser():
     parser = ArgumentParser()
     parser.add_argument("--image_width", type=int, default=640)
     parser.add_argument("--threads_count", type=int, default=128)
+    parser.add_argument("--num_images", type=int, default=3000)
     return parser
 
 def download_images(photos, image_width, threads_count=128):
@@ -42,27 +43,19 @@ def download_images(photos, image_width, threads_count=128):
     print(f'Photos downloaded: {len(photos)}')
     print("Photo downloading finished!")
 
-def compute_clip_features(photos_batch, model, preprocess, device):
-    photos = [Image.open(photo_file) for photo_file in photos_batch]
-    photos_preprocessed = torch.stack([preprocess(photo) for photo in photos]).to(device)
-    with torch.no_grad():
-        photos_features = model.encode_image(photos_preprocessed)
-        photos_features /= photos_features.norm(dim=-1, keepdim=True)
-    return photos_features.cpu().numpy()
 if __name__ == "__main__":
     parser = setup_parser()
     args = parser.parse_args()
 
-    # zip_filename = "unsplash-dataset.zip"
-    # print(f"Downloading metadata file {zip_filename}...")
-    # os.system(f"curl -o {zip_filename} {DOWNLOAD_URL}")
-    # print(f"Extracting {zip_filename}...")
-    # os.system(f"unzip {zip_filename} -d {str(DATASET_PATH)}")
+    zip_filename = "unsplash-dataset.zip"
+    print(f"Downloading metadata file {zip_filename}...")
+    os.system(f"curl -o {zip_filename} {DOWNLOAD_URL}")
+    print(f"Extracting {zip_filename}...")
+    os.system(f"unzip {zip_filename} -d {str(DATASET_PATH)}")
 
     photos = pd.read_csv(DATASET_PATH / "photos.tsv000", sep='\t', header=0)
-    photo_urls = photos[['photo_id', 'photo_image_url']].values.tolist()[:3000]
+    photo_urls = photos[['photo_id', 'photo_image_url']].values.tolist()[:args.num_images]
 
     download_images(photo_urls, args.image_width, args.threads_count)
-    
     photos_files = list(DOWNLOADED_PHOTOS_PATH.glob("*.jpg"))
     
